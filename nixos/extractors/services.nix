@@ -42,13 +42,24 @@ in
   };
 
   config.topology.self.services = mkIf config.topology.extractors.services.enable (
-    lib.genAttrs [ "calibre" "dnsproxy" "sing-box" "dae" "shadow-tls" "postgresql" ] (
-      n:
-      mkIf config.repack.${n}.enable {
-        name = n;
-        details = { };
-      }
-    )
+    genAttrs
+      [
+        "calibre"
+        "dnsproxy"
+        "sing-server"
+        "dae"
+        "postgresql"
+        "misskey"
+        "mautrix-telegram"
+        "conduwuit"
+      ]
+      (
+        n:
+        mkIf config.repack.${n}.enable {
+          name = n;
+          details = { };
+        }
+      )
     // {
       adguardhome =
         let
