@@ -52,11 +52,14 @@ in
         "misskey"
         "mautrix-telegram"
         "conduwuit"
+        "garage"
+        "ntfy"
       ]
       (
         n:
         mkIf config.repack.${n}.enable {
           name = n;
+          icon = "services.logo";
           details = { };
         }
       )
