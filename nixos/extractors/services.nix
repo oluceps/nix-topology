@@ -42,7 +42,14 @@ in
   };
 
   config.topology.self.services = mkIf config.topology.extractors.services.enable (
-    {
+    lib.genAttrs [ "calibre" "dnsproxy" "sing-box" "dae" "shadow-tls" "postgresql" ] (
+      n:
+      mkIf config.repack.${n}.enable {
+        name = n;
+        details = { };
+      }
+    )
+    // {
       adguardhome =
         let
           address = config.services.adguardhome.host or null;
@@ -91,20 +98,7 @@ in
       caddy = mkIf config.repack.caddy.enable {
         name = "Caddy";
         icon = "services.caddy";
-        details = genAttrs (mapAttrsToList (name: _: name) config.services.caddy.virtualHosts) (name: {
-          text =
-            concatStringsSep " " # Turn the (possibly multiple) strings in the list into a single string
-
-              (
-                builtins.map (line: removePrefix "reverse_proxy " (removeSuffix " {" line)) # Remove the prefix and suffix, so only the list of hosts are left
-
-                  (
-                    filter (line: hasPrefix "reverse_proxy " line) # Filter out lines that don't start with reverse_proxy
-
-                      (splitString "\n" config.services.caddy.virtualHosts.${name}.extraConfig)
-                  )
-              ); # Separate lines of string into list
-        });
+        details = { };
       };
 
       dnsmasq = mkIf config.services.dnsmasq.enable {
