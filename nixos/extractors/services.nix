@@ -53,7 +53,6 @@ in
         "mautrix-telegram"
         "conduwuit"
         "garage"
-        "ntfy"
       ]
       (
         n:
