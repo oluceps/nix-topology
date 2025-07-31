@@ -51,7 +51,7 @@ in
         "postgresql"
         "misskey"
         "mautrix-telegram"
-        "conduwuit"
+        "tuwunel"
         "garage"
       ]
       (
